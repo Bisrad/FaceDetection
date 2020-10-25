@@ -1,4 +1,5 @@
 // import func from './func';
+import 'regenerator-runtime/runtime'
 
 const video = document.querySelector('.webcam');
 
@@ -10,8 +11,6 @@ const faceCtx = canvas.getContext('2d');
 
 const faceDetector = new window.FaceDetector();
 
-ctx.strokeStyle = '#ffc600';
-ctx.lineWidth = '2px';
 
 async function populateVideo() {
     const stream = await navigator.mediaDevices.getUserMedia({
@@ -29,15 +28,21 @@ async function populateVideo() {
 
 async function detect() {
     const faces = await faceDetector.detect(video);
+    console.log(faces);
     // console.log(faces.length);
     // ask the browser when the next animation frame is and run detect for us
-    faces.forEach(drawFace) 
-    requestAnimationFrame(detect);
+    // faces.forEach(drawFace) 
+    // requestAnimationFrame(detect);
+  
 }
 
-function drawFace(face) {
-    const { width, height, top, left } = face.boundingBox;
-    ctx.strokeRect(width, height, top, left);
-}
+// function drawFace(face) {
+//     const { width, height, top, left } = face.boundingBox;
+//     ctx.clearRect( 0, 0, canvas.width, canvas.height);
+//     ctx.strokeStyle = '#ffc600';
+//     ctx.lineWidth = '2px';
+//     ctx.strokeRect(width, height, top, left);
+//     console.log({width, height, top, left});
+// }
 
 populateVideo().then(detect);
